@@ -21,17 +21,37 @@ const getBody = (req, callback) => {
 };
 
 // here, you could declare one or more variables to store what comes back from the form.
-let item = "Enter something below.";
+let mood = null;
+const moodColor = {
+  happy: "#EFC050",
+  sad: "#5B5EA6",
+  angry: "#9B2335",
+  calm: "#6F8D6A"
+}
+const moodMessage = {
+  happy: "Happiness and confidence are the prettiest things you can wear",
+  sad: `I have found, through painful experience,<br>
+        that the most important step a person can take<br>
+        is always the next one.`,
+  angry: "Feel it all,<br>Then, let it go",
+  calm: "I am a slow walker,<br>but I never walk back."
+}
 
 // here, you can change the form below to modify the input fields and what is displayed.
 // This is just ordinary html with string interpolation.
 const form = () => {
   return `
-  <body>
-  <p>${item}</p>
+  <body style='background-color: ${moodColor[mood] || '#EFDECD'}'>
+  <h2>${moodMessage[mood] || "What mood are you in right now?"}</h2>
+  <p>
   <form method="POST">
-  <input name="item"></input>
-  <button type="submit">Submit</button>
+  <select name="mood">
+    <option value="happy">Happy</option>
+    <option value="sad">Sad</option>
+    <option value="angry">Angry</option>
+    <option value="calm">Calm</option>
+  </select>
+  <button name="submit">Submit</button>
   </form>
   </body>
   `;
@@ -44,10 +64,10 @@ const server = http.createServer((req, res) => {
     getBody(req, (body) => {
       console.log("The body of the post is ", body);
       // here, you can add your own logic
-      if (body["item"]) {
-        item = body["item"];
+      if (body["mood"]) {
+        mood = body["mood"];
       } else {
-        item = "Nothing was entered.";
+        mood = null;
       }
       // Your code changes would end here
       res.writeHead(303, {
