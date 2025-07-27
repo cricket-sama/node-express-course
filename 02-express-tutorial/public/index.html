@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <title>Express Tutorial</title>
+    </head>
+    <body>
+        <button onclick='loadProducts()''>Load All Products</button>
+        <div id='output'></div>
+
+        <script>
+            async function  loadProducts() {
+                const res = await fetch('/api/v1/products')
+                const data = await res.json()
+
+                const container = document.getElementById('output')
+                container.innerHTML = ''
+
+                data.forEach(product => {
+                    const li = document.createElement('li')
+                    li.textContent = `${product.name}: $${product.price}`
+                    container.appendChild(li)
+                })
+            }
+        </script>
+    </body>
+</html>
