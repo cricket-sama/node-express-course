@@ -17,8 +17,8 @@ app.use(logger)
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 app.use(express.static('./public'))
+app.use(cookieParser());
 app.use('/api/v1/people', peopleRouter)
-app.use(cookieParser())
 
 // app.get('/', logger, (req, res) => {
 //     res.send('/')
