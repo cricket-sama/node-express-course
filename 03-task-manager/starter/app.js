@@ -5,14 +5,11 @@ const app = express()
 const tasks = require('./routes/tasks')
 const connectDB = require('./db/connect')
 require('dotenv').config()
-
-console.log('All env vars containing "mongo":');
-Object.entries(process.env)
-  .filter(([k]) => k.toLowerCase().includes('mongo'))
-  .forEach(([k, v]) => console.log(`${k}=${v}`));
-
+const notFound = require('./middleware/not-found')
+const errorHandlerMiddleware = require('./middleware/error-handler')
 
 // middleware
+app.use(express.static('./public'))
 app.use(express.json())
 
 // routes
@@ -21,6 +18,8 @@ app.get('/hello', (req, res) => {
 }) 
 
 app.use('/api/v1/tasks', tasks)
+
+app.use(notFound)
 
 const port = 3000
 

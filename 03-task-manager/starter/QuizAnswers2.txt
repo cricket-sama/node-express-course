@@ -1,0 +1,14 @@
+1. The async wrapper made the controllers more concise by
+removing the need to repeat try/catch blocks for each one
+
+2.
+
+const getTask = asyncWrapper(async (req, res, next) => {  
+  const { id: taskID } = req.params;  
+  const task = await Task.findOne({ _id: taskID });  
+  if (!task) {  
+    // your code here
+    return next(createCustomError(`No task with id: ${taskID}`, 404)) 
+  }  
+  res.status(200).json({ task });  
+});
